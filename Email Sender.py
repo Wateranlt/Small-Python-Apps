@@ -2,6 +2,7 @@
 
 import smtplib
 import ssl
+from Read_functions import read_emails
 import SendingFunctions
 
 def main():
@@ -12,9 +13,6 @@ def main():
         inputServer = input("Which server to want to connect to : ")
         address = input("What account do you want to use: ")
         password = input("What is the account's password : ")
-        context = ssl.create_default_context()
-        server = smtplib.SMTP_SSL(inputServer, context=context)
-        server.login(address, password)
         while(1):
             print("\n============== What do you want to do ================")
             print("1. Write a mail")
@@ -23,15 +21,14 @@ def main():
             print("4. Quit app")
             answer = int(input("Your choice ? : "))
             if(answer == 1):
-                SendingFunctions.writeMessage(server, address)
+                SendingFunctions.writeMessage(inputServer, address, password)
             elif(answer == 2):
-                readMessage()
+                read_emails(inputServer, address, password)
             elif(answer == 3):
                 break
             elif(answer == 4):
                 stay = False
                 break
-        server.quit()
 
 
 if __name__ == "__main__":
